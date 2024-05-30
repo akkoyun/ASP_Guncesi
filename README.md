@@ -281,7 +281,49 @@ Bu tanımlama yapılsa da yapılmasa da, script bloğu <script> elementi içinde
 
 Bu örneklerde, VBScript ve JScript dillerinin nasıl belirlendiğini görebiliriz. Bu sayede, ASP sayfalarının hangi script diliyle yürütüleceği önceden belirlenebilir.
 
+#### 1.3.5.2. CodePage
 
+CodePage, bir web sayfasının karakter kodlamasını belirtmek için kullanılır. Karakter kodlaması, bilgisayarın metinleri nasıl okuyup işleyeceğini belirler. Örneğin, Latin alfabesindeki harfleri içeren bir web sayfası için "1252" veya "ISO-8859-1" karakter kodlaması kullanılabilir. Türkçe karakterlerin bulunduğu bir sayfa için ise "1254" veya "ISO-8859-9" karakter kodlaması tercih edilebilir.
+
+CodePage, web sayfasının doğru bir şekilde işlenmesi ve gösterilmesi için önemlidir. Doğru karakter kodlaması kullanılmadığında, sayfanın içeriği yanlış okunabilir veya görüntülenebilir. Bu nedenle, özellikle farklı dilleri destekleyen çok dilli web siteleri için doğru karakter kodlaması seçimi kritik öneme sahiptir.
+
+CodePage belirtme işlemi, ASP sayfasının başında <% %> etiketleri arasında yapılır. Örneğin:
+
+```asp
+<%@CODEPAGE = “1254”%>
+```
+
+Bu komut, web sayfasının "1254" karakter kodlamasını kullanacağını belirtir. Böylece, Türkçe karakterlerin doğru bir şekilde görüntüleneceği sağlanır.
+
+Ayrıca, dil belirleme komutu olan LANGUAGE ile birlikte de kullanılabilir:
+
+```asp
+<%@CODEPAGE = “1254” LANGUAGE=“VbScript”%>
+```
+
+Bu örnek, sayfanın "1254" karakter kodlaması ve VBScript dilinde çalışacağını belirtir.
+
+#### 1.3.5.3. LCID
+
+LCID (Locale ID - Yerel Kimlik), bir web sayfasının bölgesel ayarlarını belirlemek için kullanılır. Bu ayarlar arasında para birimi simgesi, tarih ve saat biçimi, sayı biçimi ve diğer bölgesel özellikler yer alır. Örneğin, LCID değeri "2057" olarak ayarlandığında, İngiltere'nin bölgesel ayarları kullanılacak ve para birimi simgesi olarak "£" işareti gösterilecektir.
+
+LCID belirtme işlemi, ASP sayfasının başında <% %> etiketleri arasında yapılır. Örneğin:
+
+```asp
+<%@LCID = “2057”%>
+```
+
+Bu komut, sayfanın İngiltere'nin bölgesel ayarlarını kullanacağını belirtir. Böylece, tarih, saat ve para birimi gibi değerler, İngiltere'ye özgü olarak görüntülenecektir.
+
+Ayrıca, dil belirleme komutu olan LANGUAGE ve CodePage ile birlikte de kullanılabilir:
+
+```asp
+<%@CODEPAGE=“1254” LANGUAGE=“VbScript” LCID=“2057”%>
+```
+
+Bu örnek, sayfanın "1254" karakter kodlaması, VBScript dilinde çalışması ve İngiltere'nin bölgesel ayarlarını kullanması gerektiğini belirtir.
+
+LCID belirleme, özellikle çok dilli web siteleri için önemlidir. Doğru bölgesel ayarların kullanılması, kullanıcıların web sayfasını daha doğru bir şekilde anlamasını sağlar ve kullanıcı deneyimini iyileştirir.
 
 
 
