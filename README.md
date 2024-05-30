@@ -128,6 +128,7 @@ Resimde (Resim 2: ISAPI Yapısı) görülebileceği gibi, ASP uzantılı dosyala
 
 İstemci sunucudan bir dosya talep ettiğinde istek paketi aşağıdaki gibi olacaktır:
 
+```HTML
 GET /deneme/ornek.asp HTTP/1.1
 Accept: application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-comet, */*
 Accept-Language: en-us
@@ -138,7 +139,9 @@ User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows XP)
 Host: 212.98.198.111
 Connection: Keep-Alive
 Bu isteği takiben, sunucu istemciye dosyayı gönderirken şu başlık kısmıyla birlikte gönderecektir:
+```
 
+```HTML
 HTTP/1.1 200 OK
 Server: Microsoft-IIS/5.0
 Connection: Keep-Alive
@@ -151,6 +154,8 @@ Cookie: VisitCount=2&LastDate=6%2F4%2F99
 
 <HTML>
 --Sayfanın geri kalanı
+```
+
 Bu bilgileri dikkatlice incelemeniz önemlidir çünkü ilerideki konularımızda bu sunucu ve istemci işlemlerini okutmak ve değiştirmek üzerine konular göreceğiz.
 
 ### 1.3.4. ASP Dosyalarının İşlenmesi
@@ -186,6 +191,7 @@ Artık "http://127.0.0.1/guvenli" klasöründen FSO kullanarak c:\ dizinine veya
 
 En yaygın kullanılan yöntem, sunucu taraflı kodu işaretlemek için "<%" ve "%>" arasında yazmaktır. Bu şekilde, bir HTML belgesi içinde sunucu taraflı kod bloğu tanımlanabilir. Örnek olarak:
 
+```HTML
 <HTML>
 	<Body>
 		Bu bir HTML metnidir
@@ -195,6 +201,7 @@ En yaygın kullanılan yöntem, sunucu taraflı kodu işaretlemek için "<%" ve 
 		%>
 	</Body>
 </HTML>
+```
 
 Bu kod örneğinde, "<%" işaretiyle başlayan ve "%>" işaretiyle biten kısım arasına yerleştirilen kodlar, sunucu taraflı ASP kodunu temsil eder. Bu kodlar çalıştırıldığında, sonuç HTML sayfasına eklenir.
 
@@ -202,6 +209,7 @@ Bu kod örneğinde, "<%" işaretiyle başlayan ve "%>" işaretiyle biten kısım
 
 Nadir olarak kullanılan bir yöntemde sunucu taraflı kodun yer aldığı script bloğunu <script> elementiyle açıp </script> elementiyle kapatmaktır. Bu kullanımda element içerisine yazılacak olan "runat" özelliği sayesinde istemci veya sunucu taraflı çalışma özelliği eklenir. Örnek olarak:
 
+```HTML
 <HTML>
 	<Body>
 		Bu bir HTML metnidir
@@ -210,20 +218,68 @@ Nadir olarak kullanılan bir yöntemde sunucu taraflı kodun yer aldığı scrip
 		</script>
 	</Body>
 </HTML>
+```
 
 Ayrıca, <script> elementi kullanılarak sunucu üzerinde bulunan bir dosya script bloğu içerisine dahil edilebilir. Bu şekilde tüm sayfalarda kullanılan ortak kodlar bir defaya mahsus olmak üzere yazılır ve gereken yerlere dahil edilir. Örnek olarak:
 
+```HTML
 <HTML>
 	<Body>
 		<script runat="server" src="/script.inc"></script>
 	</Body>
 </HTML>
+```
 
 Bu uygulamada, içeriği dahil edilen "script.inc" dosyasının içerisinde geçerli bir script olmalıdır. Bu dosya, metin veya HTML içeremez ve <script> elementinin içerisine sadece script kodu eklenmelidir.
 
 Bilgi: Harici dosyaları ASP dosyasına dahil etmek için Server Side Includes (SSI) kullanabiliriz. Bu yöntemle, script blokları içerisindeki kodları harici dosyalarda saklayabiliriz. Bu konuyu ilerideki konularımızda detaylı olarak ele alacağız.
 
+### 1.3.5. Özel ASP Komutları
 
+#### 1.3.5.1. Script Dilini Belirlemek
+
+ASP, IIS tarafından desteklenen iki ana script motoru olan "VBScript" ve "JScript" ile birlikte gelir. Bunlar genellikle bir arada bulunurlar, ancak IIS ile birlikte gelmeyen ancak sonradan eklenebilen diğer script motorları da mevcuttur, örneğin TCL ve PerlScript.
+
+ASP sayfalarında hangi script motorunun kullanılacağını belirlemek için dil tanımlama önemlidir. Bu genellikle IIS'de yapılandırılmış birkaç varsayılan değerle sağlanır. Bu, ASP sayfasının başında özel bir içerik tanımı kullanılarak gerçekleştirilir.
+
+Örneğin, sayfanın hangi script diliyle çalışacağını belirtmek için şu kod kullanılır:
+
+```asp
+<%@Language = “dil”%>
+```
+
+Burada "dil" yerine "VBScript" veya "JScript" gibi bir değer kullanılabilir. Örneğin, VBScript için:
+
+```asp
+<%@Language = “VBScript”%>
+```
+
+Ve aynı şekilde, JScript için:
+
+```asp
+<%@Language = “JScript”%>
+```
+
+Bu tanımlama yapılsa da yapılmasa da, script bloğu <script> elementi içinde tanımlanmışsa, kullanılan dil orada da belirtilebilir.
+
+Örneğin:
+
+```HTML
+<HTML>
+	<Body>
+		Bu bir HTML metinidir
+		<script Runat = ”server” Language = “VBScript”>
+			Rem burası script bloğudur ve dil olarak VBScript Kullanılmıştır
+		</script>
+
+		<script Runat = ”server” Language = “JScript”>
+			Rem burası script bloğudur ve dil olarak JScript kullanılmıştır
+		</script>
+	</Body>
+</HTML>
+```
+
+Bu örneklerde, VBScript ve JScript dillerinin nasıl belirlendiğini görebiliriz. Bu sayede, ASP sayfalarının hangi script diliyle yürütüleceği önceden belirlenebilir.
 
 
 
