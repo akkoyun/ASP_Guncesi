@@ -325,7 +325,97 @@ Bu örnek, sayfanın "1254" karakter kodlaması, VBScript dilinde çalışması 
 
 LCID belirleme, özellikle çok dilli web siteleri için önemlidir. Doğru bölgesel ayarların kullanılması, kullanıcıların web sayfasını daha doğru bir şekilde anlamasını sağlar ve kullanıcı deneyimini iyileştirir.
 
+### 2. ASP'nin Temelleri
 
+#### 2.1. Değişkenler
+
+Tüm programlama dillerinde olduğu gibi, VBScript'te de değişkenler kullanılır. Değişkenler, sayısal veya metinsel değerleri doğrudan kullanmak yerine, bu değerleri temsil eden isimlerdir. Bu sayede program içinde daha esnek bir yapı kurabiliriz.
+
+Değişkenleri temsil eden belirli adlar vardır, örneğin "isim", "tarih" veya "toplam" gibi. Değişkenin adı sabit kalır, ancak içerisinde tuttuğu değer programın akışına bağlı olarak değişebilir. Programcı, değişkenlerin değerlerini kontrol eder ve gerektiğinde güncelleyebilir. Bu esneklik, programların dinamik ve uyarlanabilir olmasını sağlar. Bu nedenle, değişken kavramı programlama dünyasında temel bir öneme sahiptir.
+
+Değişken isimlendirmede kullanılan bazı yaygın stiller şunlardır:
+
+- **Snake Case:** Değişken isimlerindeki kelimeler alt çizgi (_) ile ayrılır. Örneğin, `isim_soyisim` veya `dogum_tarihi`. Bu stil genellikle okunabilirliği artırır ve birçok programlama dilinde yaygın olarak kullanılır.
+- **Camel Case:** İlk kelimenin tamamı küçük harflerle, sonrakilerin ilk harfi büyük harflerle yazılır. Örneğin, `isimSoyisim` veya `dogumTarihi`. Bu stil, JavaScript ve Java gibi dillerde sıkça tercih edilir.
+- **Pascal Case:** Camel Case'e benzer, ancak ilk kelimenin ilk harfi de büyük harf ile başlar. Örneğin, `IsimSoyisim` veya `DogumTarihi`. Bu stil, genellikle sınıf ve fonksiyon isimlendirmelerinde kullanılır.
+
+İyi bir değişken ismi seçmek, kodun okunabilirliği ve sürdürülebilirliği açısından önemlidir. Anlamlı ve tutarlı değişken isimleri, kodun anlaşılmasını kolaylaştırır ve hata yapma olasılığını azaltır.
+
+Piyasada kullanılan bütün programlama dillerinde, değişkenler kullanılmadan önce tanımlanmalı ve boyutlandırılmalıdır. Ancak VBScript, bu dillerden farklı olarak değişkenlerin tanımlanması ve boyutlandırılmasını zorunlu kılmaz. VBScript'te tanımlanmamış değişkenler herhangi bir hata vermeden kabul edilir. Ancak, karmaşık programlarda bu durum sorunlara yol açabilir. Tanımlanmamış bir değişkene değer atanmadan başka bir yerde kullanılması, programda hatalara neden olabilir.
+
+Bu tür sorunları önlemek için değişkenlerin kullanılmadan önce tanımlanması önerilir. Profesyonel bir programcı, değişkenlerini kullanmadan önce mutlaka tanımlar, böylece programın ilerleyen safhalarında değişken hataları yapmaz. Bu alışkanlığı zorunlu hale getirmek için VBScript'te `Option Explicit` komutu kullanılır. Bu komut, ASP yordamcısının her kullanılan değişkenin tanımlanmasını zorunlu kılar, böylece sayfalar arası değişken karmaşası oluşmaz ve değişken adlarının yanlış yazılması engellenir. `Option Explicit` komutunu mutlaka ASP programlarınızın ilk satırında kullanmalısınız, aksi halde program hata verecektir.
+
+ASP'de değişken tanımlama işlemi için "Dimension" (boyut) kelimesinin kısaltılmışı olan `DIM` komutu kullanılır. Bu komut yardımıyla, kullanılan değişkenler kodun başlangıcında belirtilerek tanımlanır. İyi bir programlama pratiği olarak değişkenleri kodun başında tanımlamak daha iyidir, ancak sayfa içerisinde herhangi bir yerde değişken tanımlaması yapmak da bir hata oluşturmaz.
+
+Örneğin:
+
+```vbscript
+Option Explicit
+Dim isim, yas, dogumTarihi
+
+isim = "Ahmet"
+yas = 30
+dogumTarihi = "01/01/1990"
+```
+
+Bu örnekte, isim, yas ve dogumTarihi değişkenleri Dim komutuyla tanımlanmış ve daha sonra bu değişkenlere değerler atanmıştır.
+
+Option Explicit komutunu kullanmazsanız, değişkenleri tanımlamadan da kullanabilirsiniz, ancak bu durum kodunuzu karmaşık hale getirebilir ve hatalara neden olabilir. Örneğin:
+
+```vbscript
+<%
+Ad = "Günce Akkoyun"
+%>
+```
+
+Bu kod, Option Explicit komutu kullanılmadığı için hata vermeden çalışır. Ancak, kodun sağlamlığı ve okunabilirliği açısından Option Explicit komutunu kullanmak daha iyidir.
+
+Option Explicit komutunu kullandığınızda, tanımlanmamış değişkenlerin kullanılması bir hata ile sonuçlanır:
+
+```vbscript
+<%
+Option Explicit
+Ad = "Günce Akkoyun"
+%>
+```
+
+Bu kod, aşağıdaki hatayı verir:
+
+```vbscript
+Microsoft VBScript runtime (0x800A01F4)
+Variable is undefined: 'Ad'
+/asp/test.asp, line 3
+```
+
+Bu hata, değişkenin tanımlanmadan kullanıldığını belirtir. Doğru kullanım şu şekilde olmalıdır:
+
+```vbscript
+<%
+Option Explicit
+Dim Ad
+Ad = "Günce Akkoyun"
+%>
+```
+
+Bu şekilde yapılan değişken tanımlamalarında, programın ilerleyen aşamalarında tekrar Ad isimli bir değişken kullanamayacağınız için bir karışıklık olmayacaktır. Bu, büyük kodlar (10,000-20,000 satır) yazarken özellikle önemlidir ve kodunuzu daha okunabilir ve yönetilebilir hale getirir.
+
+Temelde kullanılan değişken türleri sayısal, alfasayısal ve mantıksal olmak üzere üçe ayrılmaktadır. Ancak VBScript, diğer programlama dillerinde karşılaştığımız integer, real, string, boolean gibi temel veri tipi tanımlarından yoksundur. Peki VBScript bir değişkenin türünü nasıl anlar? Bunu o değişkene değer atandığı zaman anlar. Aşağıdaki atamaları inceleyelim:
+
+```vbscript
+<%
+Option Explicit
+Dim x, y, z, t, u
+x = 15
+y = "15"
+z = "Zeytinyağlı yiyemem aman"
+t = True
+u = ASPgüncesi
+%>
+```
+
+Yukarıdaki örnekte x değişkenine sayısal bir değer atandığı için, x değişkeni sayısal bir veri tipinde olacaktır. Bu nedenle tüm sayısal işlemlerde kullanılabilir. y değişkeni tırnak içerisinde olduğundan dolayı alfasayısal (string) veri tipinde olacaktır. Bu nedenle sayısal işlemlerde kullanılamaz ve sadece metinsel işlemlerde kullanılabilir. z değişkeni de metinsel bir değere sahiptir ve sayısal işlemlerde kullanılamaz. t değişkeni ise sadece “doğru” (true - 1) veya “yanlış” (false - 0) değerini alabilen bir boolean veri tipidir. u değişkeni ise tanımsız bir değişken olduğundan hata verecektir. Metin değişkenleri sadece tırnak işareti içerisinde tanımlanabilir, aksi halde hata oluşur.
+
+Bu nedenle, değişkenleri doğru şekilde tanımlamak ve kullanmak programın doğruluğu ve kararlılığı açısından kritik öneme sahiptir.
 
 
 
