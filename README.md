@@ -417,17 +417,138 @@ Yukarıdaki örnekte x değişkenine sayısal bir değer atandığı için, x de
 
 Bu nedenle, değişkenleri doğru şekilde tanımlamak ve kullanmak programın doğruluğu ve kararlılığı açısından kritik öneme sahiptir.
 
+#### 2.1.1. Seri Değişkenler
 
+VBScript programları içerisinde bir değişkene birden çok değer verilebilmektedir. Bu olaya "Seri Değişken" denilmektedir. Örnek vermek gerekirse, 7 kişilik bir sınıftaki öğrencilerin isimlerini tek bir değişkende tutabiliriz.
 
+```vbscript
+<%
+Option Explicit
+Dim Ad(7)
+Ad(0) = "Günce"
+Ad(1) = "Naz"
+Ad(2) = "Aras"
+Ad(3) = "Mehmet"
+Ad(4) = "Berna"
+Ad(5) = "Liva"
+Ad(6) = "Eren"
+%>
+```
 
+Bu şekilde bir tanımlama ile “Ad” değişkenine 7 farklı değer vermiş olduk. Burada dikkat edilmesi gereken nokta, dizi elemanlarının indeks değerlerinin 0’dan başlamasıdır. Yani, Dim Ad(6) komutu ile 0’dan 6’ya kadar toplam 7 eleman içeren bir dizi oluşturmuş olduk. Bu örnekte neden her isim için farklı değişken kullanmadık da bir seri kullandık diye soracak olursanız, işte cevabı:
 
+```vbscript
+<%
+Option Explicit
+Dim Ad1, Ad2, Ad3, Ad4, Ad5, Ad6, Ad7
+Ad1 = "Günce"
+Ad2 = "Naz"
+Ad3 = "Aras"
+Ad4 = "Mehmet"
+Ad5 = "Berna"
+Ad6 = "Liva"
+Ad7 = "Eren"
+%>
+```
 
+Dizi değişkenlerde bir değişkeni numarasıyla kullanabilirsiniz. Ayrıca, indis numarası yerine bir değişken vererek kod içerisinde daha dinamik bir yapı oluşturabilirsiniz.
 
+Örneğin:
 
+```vbscript
+<%
+Option Explicit
+Dim Ad(7)
+Ad(0) = "Günce"
+Ad(1) = "Naz"
+Ad(2) = "Aras"
+Ad(3) = "Mehmet"
+Ad(4) = "Berna"
+Ad(5) = "Liva"
+Ad(6) = "Eren"
 
+Dim numara
+numara = 5
+Response.Write Ad(numara)
+%>
+```
 
+Bu şekilde bir kullanım ile Ad(5) değişkenini ekrana yazdırabilirsiniz. Bu örnekte, numara değişkenine 5 değeri atandı ve Ad(numara) şeklinde seri indisi olarak kullanıldı.
 
+Bir dizinin boyutu ihtiyaçlarımızın altında kalırsa, yani elimizdeki toplam dizi öğesi adedi dizinin tanım aralığı dışında kalırsa, dizinin tanım aralığını yani boyutunu genişletebiliriz. Bunun için ReDim komutu kullanılır (yeniden boyutlandır). Ancak bu komutun şöyle bir özelliği vardır: yeniden tanımlanan bir dizi, yeniden tanımlama öncesi kendisine verilen hiçbir değeri yeniden boyutlandırma sonrası korumaz. Yani içeriği sıfırlanır.
 
+Örneğin:
 
+```vbscript
+<%
+Option Explicit
+Dim Ad(5)
+Ad(0) = "Günce"
+Ad(1) = "Naz"
+Ad(2) = "Aras"
+Ad(3) = "Mehmet"
+Ad(4) = "Berna"
 
+ReDim Ad(7)
+Ad(5) = "Liva"
+Ad(6) = "Eren"
+%>
+```
 
+Verilen örnekte yeniden tanımlama sonrası Ad(0) – Ad(4) değişkenleri sıfırlanacak yani null içeriğe sahip olacaktır. Yeniden tanımlama sırasında eski dizi değerlerinin korunmasını istersek ReDim komutunu Preserve komutuyla beraber kullanmalıyız. Bu şekilde eski verileri yeniden tanımlama sırasında korumuş oluruz.
+
+Örneğin:
+
+```vbscript
+<%
+Option Explicit
+Dim Ad(5)
+Ad(0) = "Günce"
+Ad(1) = "Naz"
+Ad(2) = "Aras"
+Ad(3) = "Mehmet"
+Ad(4) = "Berna"
+
+ReDim Preserve Ad(7)
+Ad(5) = "Liva"
+Ad(6) = "Eren"
+%>
+```
+
+Bu şekilde yeniden tanımlanan dizi eski değerlerinden hiçbir veriyi kaybetmez. Böylece eski veriler de kullanılabilir.
+
+Dizi değişkenleri yukarıdaki örneklerdeki gibi tek boyutlu olabilmesinin yanında birden çok boyuta da sahip olabilirler. Örnek vermek gerekirse, matematikte kullanılan matris sistemini düşünün. Bu, iki boyutlu dizi hakkında fikir verecektir. Matris üzerinde birinci satır birinci sütunda bulunan değer x(0,0) şeklinde ifade edilmektedir. İki boyutlu diziler, satır ve sütun olmak üzere iki indeks ile tanımlanır. Örneğin, aşağıdaki 2x2 matrisi ASP içerisinde tanımlamamız için:
+
+```vbscript
+<%
+Option Explicit
+Dim x(2,2)
+
+x(0,0) = 24
+x(0,1) = 3
+x(1,0) = 19
+x(1,1) = 81
+%>
+```
+
+Bu şekilde bir değişken ataması yapabiliriz. Bu atamada iki boyutlu bir matrisi VBScript’imize tanımlamış olduk. Benzer şekilde, üç ve dört boyutlu diziler de tanımlayabiliriz. Örneğin, üç boyutlu bir dizi şu şekilde tanımlanabilir:
+
+```vbscript
+<%
+Option Explicit
+Dim y(2,2,2)
+
+y(0,0,0) = 5
+y(0,0,1) = 10
+y(0,1,0) = 15
+y(0,1,1) = 20
+y(1,0,0) = 25
+y(1,0,1) = 30
+y(1,1,0) = 35
+y(1,1,1) = 40
+%>
+```
+
+Bu örnekle, üç boyutlu bir diziyi tanımlamış olduk. Dizinin boyutu, her bir boyuttaki eleman sayısını belirler ve her boyut için indeksler 0’dan başlar. Bu nedenle, Dim y(2,2,2) komutu ile her boyutta 3 eleman içeren bir dizi oluşturmuş olduk.
+
+Bu şekilde çok boyutlu diziler tanımlayarak, daha karmaşık veri yapıları oluşturabilir ve bu veri yapıları üzerinde çeşitli işlemler gerçekleştirebiliriz.
