@@ -552,3 +552,201 @@ y(1,1,1) = 40
 Bu örnekle, üç boyutlu bir diziyi tanımlamış olduk. Dizinin boyutu, her bir boyuttaki eleman sayısını belirler ve her boyut için indeksler 0’dan başlar. Bu nedenle, Dim y(2,2,2) komutu ile her boyutta 3 eleman içeren bir dizi oluşturmuş olduk.
 
 Bu şekilde çok boyutlu diziler tanımlayarak, daha karmaşık veri yapıları oluşturabilir ve bu veri yapıları üzerinde çeşitli işlemler gerçekleştirebiliriz.
+
+### 2. ASP'nin Temelleri
+
+#### 2.2. Sabitler
+
+Program içerisinde her zaman değişken değerleri değiştirilebilir değildir; bazen de sabit olmaları istenebilir. Bu tip değişkenlere (değişken demek biraz yanlış ama...) bir kere değer atandıktan sonra bir daha değiştirilemez. Sabit değer bütün program boyunca (hatta isterseniz bütün site boyunca) değişmeden kalır. Bu işlemi VBScript içerisinde "Constant" (sabit) kelimesinin kısaltılmışı olan `Const` komutu yardımı ile yaparız. `Const` terimi ile değer verilmiş bir değişkenin tanımlanmasına gerek yoktur.
+
+Sabit olduğu `Const` komutu ile belirtilmiş bir değişkene:
+
+```vbscript
+<%
+Option Explicit
+Const Url = "www.akkoyun.net"
+%>
+```
+
+Şeklinde kullanılan bir sabit değişkene başka bir veri atanmaya çalışıldığı zaman hata verecektir:
+
+```vbscript
+<%
+Option Explicit
+Const Url = "akkoyun.net"
+....
+Url = "stf.com.tr"
+%>
+```
+
+Bu durumda "Url" sabitine kendi değeri dışında bir değer verilmek istenmiştir fakat hata mesajı verecektir (Illegal assignment: 'Url').
+
+VBScript programlama dilinde kullanılan değişkenlere genel olarak variant denir. Variant genel olarak bir grubu temsil eder ve alt grupları mevcuttur. Bunlar değişkenin cinsine göre otomatik olarak tanınır. (Diğer programlama dillerinde bu özellik yoktur ve değişken tanımlanırken veri tipi yani variant grubu tanımlanır fakat ASP'de bu olay yordamcı tarafından otomatik gerçekleşir).
+
+VBScript içerisinde kullanıcıya kolaylık sağlamak için bazı hazır tanımlanmış sabitler mevcuttur. Bu sabitler kodlama sırasında istenildiği şekilde kullanılabilmektedir. Bu sabitler ve değerleri aşağıda verilmiştir.
+
+#### 2.2.1. Renk Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbBlack|&h00|Siyah|
+|vbRed|	&hFF|Kırmızı|
+|vbGreen|	&hFF00|	Yeşil|
+|vbYellow|	&hFFFF|	Sarı|
+|vbBlue|	&hFF0000|	Mavi|
+|vbMagenta|	&hFF00FF|	Gül Kurusu|
+|vbCyan|	&hFFFF00|	Turkuaz|
+|vbWhite|	&hFFFFFF|	Beyaz|
+
+#### 2.2.2. Tarih ve Zaman Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbSunday|	1|	Pazar|
+|vbMonday|	2|	Pazartesi|
+|vbTuesday|	3|	Salı|
+|vbWednesday|	4|	Çarşamba|
+|vbThursday|	5|	Perşembe|
+|vbFriday|	6|	Cuma|
+|vbSaturday|	7|	Cumartesi|
+|vbUseSystem|	0|	Sunucu bölgesel ayarlarında yer alan tarih ve zaman biçimini kullan|
+|vbFirstJan1|	1|	1 Ocak gününün içerisinde yer aldığı haftayı kullan|
+|vbFirstFourDays|	2|	En az 4 günü yeni yılda olan ilk haftayı kullan|
+|vbFirstFullWeek|	3|	7 günü de yeni yıl içerisinde yer alan ilk haftayı kullan|
+
+#### 2.2.3. Tarih Biçim Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbGeneralDate|	0|	Sistem ayarlarındaki gösterim biçimi|
+|vbLongDate|	1|	Uzun tarih gösterimi (June 26, 1943)|
+|vbShortDate|	2|	Kısa tarih gösterimi (6/26/43)|
+|vbLongTime|	3|	Uzun zaman gösterimi (3:48:01 PM)|
+|vbShortTime|	4|	Kısa zaman gösterimi (15:48)|
+
+#### 2.2.4. Çeşitli Sabitler
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbObjectError|	-2147221504|	Kullanıcı tarafından tanımlanan hata tipi numaraları|
+
+#### 2.2.5. Mesaj Kutusu Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbOkOnly|	0|	Sadece OK butonunu göster|
+|vbOkCancel|	1|	OK ve İptal butonunu göster|
+|vbAbortRetryIgnore|	2|	Abort, Retry ve Ignore butonunu göster|
+|vbYesNoCancel|	3|	Yes, No ve Cancel butonunu göster|
+|vbYesNo|	4|	Yes ve No butonunu göster|
+|vbRetryCancel|	5|	Retry ve Cancel butonunu göster|
+|vbCritical|	16|	Kritik mesaj ikonunu göster|
+|vbQuestion|	32|	Uyarı soru mesajı ikonunu göster|
+|vbExclamation|	48|	Uyarı mesajı ikonunu göster|
+|vbInformation|	64|	Bilgi mesajı ikonunu göster|
+|vbDefaultButton1|	0|	İlk buton varsayılan|
+|vbDefaultButton2|	256|	İkinci buton varsayılan|
+|vbDefaultButton3|	512|	Üçüncü buton varsayılan|
+|vbDefaultButton4|	768|	Dördüncü buton varsayılan|
+
+#### 2.2.6. Mesaj Kutusu Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbOk|	1|	OK Butonu tıklandı|
+|vbCancel|	2|	Cancel butonu tıklandı|
+|vbAbort|	3|	Abort butonu tıklandı|
+|vbRetry|	4|	Retry butonu tıklandı|
+|vbIgnore|	5|	Ignore butonu tıklandı|
+|vbYes|	6|	Yes butonu tıklandı|
+|vbNo|	7|	No butonu tıklandı|
+
+#### 2.2.7. String Cevap Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbCr|	chr(13)|	|
+|vbCrLf|	chr(13) & chr(10)|	|
+|vbFormFeed|	chr(12)|	Form besleme|
+|vbLf|	chr(10)|	Satır besleme|
+|vbNewLine|	chr(13) & chr(10) veya chr(10)|	Yeni satır|
+|vbNullChar|	chr(0)|	0 değerine sahip karakter|
+|vbNullString|	-|	""|
+|vbTab|	chr(9)|	Horizantal Tab|
+|vbVerticalTab|	chr(11)	Vertical Tab|
+
+#### 2.2.8. Durum Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbTrue|	1|	Doğru|
+|vbFalse|	0|	Yanlış|
+
+#### 2.2.9. Karşılaştırma Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|VbBinaryCompare|	0|	Binary Karşılaştırma|
+|VBTextCompare|	1|	Metin karşılaştırma|
+|VBDataBaseCompare|	2|	Veri tabanı karşılaştırması|
+
+#### 2.2.10. Değişken Tipi Sabitleri
+
+| Sabit | Değer | Açıklama |
+|-------|-------|----------|
+|vbEmpty|	0|	Tanımsız data|
+|vbNull|	1|	Geçerli data içermeyen|
+|vbInteger|	2|	Integer|
+|vbLong|	3|	Long|
+|vbSingle|	4|	Single|
+|vbCurrency|	6|	Currency|
+|vbDate|	7|	Date|
+|vbString|	8|	String|
+|vbObject|	9|	Object|
+|vbError|	10|	Error|
+|vbBoolean|	11|	Boolean|
+| vbVariant    | 12    | Variant                   |
+| vbDataObject | 13    | Data Object               |
+| vbDecimal    | 14    | Decimal                   |
+| vbByte       | 15    | Byte                      |
+| vbArray      | 16    | Array                     |
+
+#### 2.2.11. Sürücü Tipi Sabitleri
+
+| Sabit     | Değer | Açıklama                         |
+|-----------|-------|----------------------------------|
+| Unknown   | 0     | Tanımlanmamış sürücü             |
+| Removable | 1     | Tüm taşınabilir medya aygıtları |
+| Fixed     | 2     | Sabit diskler                    |
+| Remote    | 3     | Network sürücüleri               |
+| CDROM     | 4     | CDRom sürücüsü                  |
+| RamDisk   | 5     | RAM üzerinde yer alan sanal disk alanı |
+
+#### 2.2.12. Dosya Özelliği Sabitleri
+
+| Sabit       | Değer | Açıklama                        |
+|-------------|-------|---------------------------------|
+| Normal      | 0     | Normal dosya                    |
+| ReadOnly    | 1     | Salt okunur                     |
+| Hidden      | 2     | Gizli                           |
+| System      | 4     | Sistem dosyası                  |
+| Directory   | 16    | Dizin                           |
+| Archive     | 32    | Arşiv                           |
+| Alias       | 1024  | Link veya kısayol               |
+| Compressed  | 2048  | Sıkıştırılmış dosya             |
+
+#### 2.2.13. Dosya Girdi Çıktı Sabitleri
+
+| Sabit          | Değer | Açıklama                           |
+|----------------|-------|------------------------------------|
+| ForReading     | 0     | Sadece okuma için aç.              |
+| ForWriting     | 1     | Dosyayı yazma için açar ve üzerine yazar |
+| ForAppending   | 8     | Dosyayı yazmak için açar ve sonuna yazar |
+
+#### 2.2.14. Özel Dizin Sabitleri
+
+| Sabit           | Değer | Açıklama                                   |
+|-----------------|-------|--------------------------------------------|
+| WindowsFolder   | 0     | Windows kurulu olduğu dizin               |
+| SystemFolder    | 1     | Fontların ve sürücülerin bulunduğu sistem dizini |
+| TemporaryFolder| 2     | Temporary dizini                           |
